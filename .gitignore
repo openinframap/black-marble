@@ -1,0 +1,10 @@
+*.tif
+*.vrt
+*.aux.xml
+*.pmtiles
+*.mbtiles
+*.txt
+
+.env
+data/
+.venv
