@@ -3,7 +3,6 @@
 *.aux.xml
 *.pmtiles
 *.mbtiles
-*.txt
 
 .env
 data/
