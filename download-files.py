@@ -7,15 +7,21 @@ load_dotenv()
 
 token = os.getenv("BLACKMARBLE_TOKEN")
 
+client = httpx.Client(follow_redirects=True)
+
+YEAR = 2024
+
 endpoint = "https://ladsweb.modaps.eosdis.nasa.gov"
 
-url = f"{endpoint}/api/v1/files?product=VNP46A4&collection=5000&dateRanges=2023-01-01..2023-01-01"
+url = f"{endpoint}/api/v1/files?product=VNP46A4&collection=5200&dateRanges={YEAR}-01-01..{YEAR}-01-01"
 
-response = httpx.get(url)
+response = client.get(url)
 
 path = Path("./data")
 
-for row in response.json().values():
+data = response.json()
+
+for row in data.values():
     # download file
     file_url = endpoint + row["fileURL"]
     file_path: Path = path / row["name"]
@@ -24,11 +30,12 @@ for row in response.json().values():
         continue
     print("Downloading", file_url)
     try:
-        with httpx.stream(
+        with client.stream(
             "GET",
             file_url,
             headers={"Authorization": f"Bearer {token}"},
-        ) as response:
+) as response:
+            response.raise_for_status()
             with open(path / row["name"], "wb") as f:
                 for chunk in response.iter_bytes():
                     f.write(chunk)
