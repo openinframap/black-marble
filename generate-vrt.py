@@ -20,9 +20,9 @@ print(
 )
 
 print(
-    """<VRTRasterBand dataType="UInt16" band="1">
+    """<VRTRasterBand dataType="Float32" band="1">
     <NoDataValue>65535</NoDataValue>
-    <Scale>0.1</Scale>"""
+    <Scale>1</Scale>"""
 )
 
 for name in data_dir.glob("*.h5"):
@@ -33,7 +33,7 @@ for name in data_dir.glob("*.h5"):
 
     print(" <ComplexSource>")
     print(
-        f'  <SourceFilename relativeToVRT="1">HDF5:"{name}"://HDFEOS/GRIDS/VIIRS_Grid_DNB_2d/Data_Fields/NearNadir_Composite_Snow_Free</SourceFilename>'
+        f'  <SourceFilename relativeToVRT="1">HDF5:"{name}"://HDFEOS/GRIDS/VIIRS_Grid_DNB_2d/Data_Fields/AllAngle_Composite_Snow_Free</SourceFilename>'
     )
     print("<SourceBand>1</SourceBand>")
     print(f'<SrcRect xOff="0" yOff="0" xSize="{TILE_WIDTH}" ySize="{TILE_HEIGHT}"/>')
