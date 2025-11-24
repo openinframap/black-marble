@@ -18,7 +18,9 @@ Then run:
     python3 ./download-files.py
     python3 ./generate-vrt.py > ./black-marble.vrt
     gdal_translate -co COMPRESS=LZW ./black-marble.vrt ./black-marble.tif
-    gdaldem color-relief -nearest_color_entry -alpha -co COMPRESS=LZW ./a.tif ./colormap.txt black-marble-mapped.tif
+
+At this point we need to apply a color gradient, which I currently achieve with QGIS, although previously I've used `gdaldem` with the included colormap.txt (the thresholds on this are now wrong though).
+
     gdal_translate -of mbtiles -co NAME="Nighttime Lights" -co TYPE=baselayer -co TILE_FORMAT=webp -projwin -180 85.05 180 -85.05 ./black-marble-mapped.tif ./black-marble.mbtiles
     gdaladdo ./black-marble.mbtiles
     pmtiles convert ./black-marble.mbtiles ./black-marble-2023.pmtiles
